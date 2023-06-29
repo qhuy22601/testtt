@@ -1,7 +1,8 @@
 // export const host = "http://localhost:5000";
 // export const backend = "http://171.238.155.142:8080";
 // export const ai = "http://171.238.155.142:8000";
-export const host = "http://116.98.57.161:5000";
+// export const host = "http://116.98.57.161:5000";
+export const host = "https://node.ltmnhom4.tk";
 export const loginRoute = `${host}/api/auth/login`;
 export const registerRoute = `${host}/api/auth/register`;
 export const logoutRoute = `${host}/api/auth/logout`;
