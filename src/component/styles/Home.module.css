@@ -1,0 +1,8 @@
+.container{
+    display:flex;
+}
+
+.outlet{
+    margin-top:60px;
+    width:100%;
+}
