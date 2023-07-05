@@ -468,7 +468,8 @@ import styled from "styled-components";
 import Header from "./Header";
 import { SideNav } from "../component/layouts/dashboard/side-nav";
 import { backend } from "./utils/APIRoutes";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const SIDE_NAV_WIDTH = 280;
 
 const LayoutRoot = styled.div`
@@ -493,11 +494,37 @@ const LayoutContainer = styled.div`
 
 const { Title } = Typography;
 
+function toastSuccess(message) {
+  toast.success(message, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+}
+
+function toastWarning(message) {
+  toast.warning(message, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+}
 const CameraCapture = () => {
   const webcamRef = useRef(null);
   const [id, setId] = useState("");
   const [count, setCount] = useState(1);
   const [capturing, setCapturing] = useState(false);
+
+  const train = async () =>{
+    try{
+      const res = await axios.post(`${process.env.REACT_APP_AI}/api/view_b/`);
+      if(res.status === 200){
+        toastSuccess("train thành công");
+      }
+      else{
+        toastWarning("train thất bại");
+      }
+    }catch(error){
+      toastWarning("Loi:"+ error)
+    }
+  }
+  
 
   const captureImage = async () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -544,7 +571,7 @@ const CameraCapture = () => {
 
   const isIdEmpty = id.trim() === "";
 const handleLoginRedirect = () => {
-  window.location.href = "#/login";
+  window.location.href = "/login";
 };
 
 const location = useLocation();
@@ -567,6 +594,7 @@ useEffect(() => {
           <Header onLoginRedirect={handleLoginRedirect}></Header>
           <SideNav onClose={() => setOpenNav(false)} open={openNav} />
           <LayoutRoot>
+            <ToastContainer></ToastContainer>
             <LayoutContainer>
               <div>
                 <div>
@@ -602,7 +630,7 @@ useEffect(() => {
                   </Button>
                 )}
                 <p>{count} ảnh đã chụp</p>
-                <Button type="primary" onClick={stopCapturing}>
+                <Button type="primary" onClick={train}>
                   Train
                 </Button>
               </div>

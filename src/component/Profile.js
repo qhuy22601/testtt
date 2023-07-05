@@ -484,7 +484,7 @@ function Profile(){
   const { id } = useParams();
   const [form] = Form.useForm();
     const handleLoginRedirect = () => {
-      window.location.href = "#/login";
+      window.location.href = "/login";
     };
 
     const location = useLocation();

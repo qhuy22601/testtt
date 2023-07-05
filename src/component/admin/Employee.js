@@ -230,7 +230,7 @@ export default function Employee() {
   }
 
   const handleLoginRedirect = () => {
-    window.location.href = "#/login";
+    window.location.href = "/login";
   };
 
   const location = useLocation();

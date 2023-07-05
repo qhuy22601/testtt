@@ -177,7 +177,7 @@ const AttendancePage = () => {
 
 
   const handleLoginRedirect = () => {
-    window.location.href = "#/login";
+    window.location.href = "/login";
   };
 
   const location = useLocation();

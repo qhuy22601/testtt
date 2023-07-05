@@ -31,7 +31,7 @@ const LayoutContainer = styled.div`
 
 function Setting() {
   const handleLoginRedirect = () => {
-    window.location.href = "#/login";
+    window.location.href = "/login";
   };
 
   

@@ -180,7 +180,7 @@ function AbsenceAdmin(){
 
 
   const handleLoginRedirect = () => {
-    window.location.href = "#/login";
+    window.location.href = "";
   };
 
   const location = useLocation();

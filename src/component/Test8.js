@@ -117,16 +117,27 @@ const LayoutContainer = styled.div`
 const CheckOutForm = () => {
   const [imageData, setImageData] = useState(null);
   const videoRef = useRef(null);
-
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const handleStartCamera = () => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        videoRef.current.srcObject = stream;
-      })
-      .catch((error) => {
-        console.error("Error accessing camera:", error);
-      });
+    if (!isCameraOpen) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          videoRef.current.srcObject = stream;
+          setIsCameraOpen(true); // Đánh dấu rằng camera đã mở
+        })
+        .catch((error) => {
+          console.error("Error accessing camera:", error);
+        });
+    } else {
+      // Tắt camera
+      const tracks = videoRef.current.srcObject?.getTracks();
+      if (tracks) {
+        tracks.forEach((track) => track.stop());
+        videoRef.current.srcObject = null;
+        setIsCameraOpen(false); // Đánh dấu rằng camera đã tắt
+      }
+    }
   };
 
   const handleCaptureImage = () => {
@@ -204,7 +215,7 @@ const CheckOutForm = () => {
                     icon={<CameraOutlined />}
                     onClick={handleStartCamera}
                   >
-                    Mở camera
+                    {isCameraOpen ? "Tắt camera" : "Mở camera"}
                   </Button>
                 </Col>
               </Row>
