@@ -434,7 +434,8 @@ import styled from "styled-components";
 import Header from "./Header";
 import { SideNav } from "../component/layouts/dashboard/side-nav";
 import { backend } from "./utils/APIRoutes";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const SIDE_NAV_WIDTH = 280;
 
 
@@ -482,6 +483,18 @@ function Profile(){
   const [file64StringWithType, setFile64StringWithType] = useState(null);
   const [ava, setAva] = useState(localStorage.getItem("Avata"));
   const { id } = useParams();
+
+  function toastSuccess(message) {
+    toast.success(message, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function toastWarning(message) {
+    toast.warning(message, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
   const [form] = Form.useForm();
     const handleLoginRedirect = () => {
       window.location.href = "/login";
@@ -514,6 +527,8 @@ function Profile(){
           address: userData.address,
           phoneNumber: userData.phoneNumber,
           gender: userData.gender,
+          payGrade: userData.payGrade,
+          role: userData.role,
           // image: userData.image
         });
       }
@@ -614,13 +629,13 @@ function Profile(){
       };
 
       await axios.post(
-        `${process.env.REACT_APP_BACK_END}/api/auth/change`,
+        `${process.env.REACT_APP_BACK_END}/api/auth/changeAll`,
         updatedFormData
       );
 
-      message.success("OKKK");
+      toastSuccess("Thành công");
     } catch (error) {
-      message.error("KO OKKK");
+      toastWarning("Thất bại");
     }
   };
 
@@ -633,6 +648,7 @@ function Profile(){
           <Header onLoginRedirect={handleLoginRedirect}></Header>
           <SideNav onClose={() => setOpenNav(false)} open={openNav} />
           <LayoutRoot>
+            <ToastContainer></ToastContainer>
             <LayoutContainer>
               <Form form={form} autoComplete="off" style={{ marginLeft: 0 }}>
                 <div>
@@ -744,6 +760,48 @@ function Profile(){
                     <Select style={{ width: "300px", textAlign: "center" }}>
                       <Option value="Male">Male</Option>
                       <Option value="Female">Female</Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Cấp độ"
+                    name="payGrade"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Select style={{ width: "300px", textAlign: "center" }}>
+                      {Object.values(PayGrade).map((grade) => (
+                        <Option key={grade} value={grade}>
+                          {grade}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Role"
+                    name="role"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                    style={{ marginLeft: "20px", textAlign: "center" }}
+                    labelCol={{ span: 6 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 18 }}
+                  >
+                    <Select style={{ width: "300px", textAlign: "center" }}>
+                      {Object.values(Role).map((role) => (
+                        <Option key={role} value={role}>
+                          {role}
+                        </Option>
+                      ))}
                     </Select>
                   </Form.Item>
 
