@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import ChevronUpDownIcon from "@heroicons/react/24/solid/ChevronUpDownIcon";
@@ -20,6 +21,7 @@ export const SideNav = (props) => {
   const location = useLocation();
   const pathname = location.pathname;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+  const [userRole, setUserRole] = useState(localStorage.getItem("Role"));
 
   const content = (
     <Box
@@ -30,17 +32,6 @@ export const SideNav = (props) => {
       }}
     >
       <Box sx={{ p: 3 }}>
-        {/* <Box
-            component={Link}
-            to="/"
-            sx={{
-              display: "inline-flex",
-              height: 32,
-              width: 32,
-            }}
-          >
-            <Logo />
-          </Box> */}
         <Box
           sx={{
             alignItems: "center",
@@ -91,7 +82,24 @@ export const SideNav = (props) => {
         >
           {items.map((item) => {
             const active = item.path ? pathname === item.path : false;
-
+            if (
+              item.title === "Dữ liệu" &&
+              userRole === "USER"
+            ) {
+              return null;
+            }
+            if (
+              item.title === "Nghỉ phép" &&
+              userRole === "USER"
+            ) {
+              return null;
+            }
+            if (
+              item.title === "Thông báo" &&
+              userRole === "USER"
+            ) {
+              return null;
+            }
             return (
               <SideNavItem
                 active={active}

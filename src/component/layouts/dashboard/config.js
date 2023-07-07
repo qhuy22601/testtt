@@ -97,22 +97,4 @@ export const items = [
       </SvgIcon>
     ),
   },
-  // {
-  //   title: "Check In",
-  //   path: "/checkin",
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <ArrowLeftCircleIcon />
-  //     </SvgIcon>
-  //   ),
-  // },
-  // {
-  //   title: "Check Out",
-  //   path: "/checkout",
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <ArrowRightCircleIcon />
-  //     </SvgIcon>
-  //   ),
-  // },
 ];

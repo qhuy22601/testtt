@@ -73,6 +73,10 @@ function Signin() {
         response.data.payload.userModel.lastName
       );
       localStorage.setItem(
+        "Role",
+        response.data.payload.userModel.role
+      );
+      localStorage.setItem(
         "Gender",
         response.data.payload.userModel.gender
       );
