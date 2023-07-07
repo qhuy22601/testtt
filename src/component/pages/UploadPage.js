@@ -162,20 +162,22 @@ const UploadPage = () => {
      setTitle("");
      setContent("");
    };
-  const handleUpload = () => {
+  const handleUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
     formData.append("content", content);
 
-     const response = axios.post(`${process.env.REACT_APP_BACK_END}/api/images/upload`, formData, {
+    const response = await axios
+      .post(`${process.env.REACT_APP_BACK_END}/api/images/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
-       toastSuccess("Upload successful");
-       resetForm();
+        toastSuccess("Upload successful");
+        fetchImageDetails();
+        resetForm();
         // Perform any additional actions after successful upload
       })
       .catch((error) => {
@@ -186,7 +188,7 @@ const UploadPage = () => {
     const [imageDetails, setImageDetails] = useState([]);
 
 
-  useEffect(() =>{
+  
      const fetchImageDetails = async () => {
        try {
          const response = await axios.get(
@@ -197,8 +199,11 @@ const UploadPage = () => {
          console.error("Error fetching image details:", error);
        }
      };
-     fetchImageDetails();
-  },[])
+     
+     useEffect(() =>
+      {
+        fetchImageDetails();
+      }, []);
 
 
   const handleLoginRedirect = () => {
@@ -225,13 +230,14 @@ const [selectedImage, setSelectedImage] = useState(null);
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_BACK_END}/api/images/del/${selectedImage.id}`
+        `${process.env.REACT_APP_BACK_END}/api/images/del/` +selectedImage.id
       );
             toastSuccess("Xóa thành công");
       setDeleteModalVisible(false);
       setImageDetails((prevDetails) =>
         prevDetails.filter((image) => image.id !== selectedImage.id)
       );
+      await fetchImageDetails();
     } catch (error) {
       toastWarning("Thất bại");
       console.error("Error deleting image:", error);

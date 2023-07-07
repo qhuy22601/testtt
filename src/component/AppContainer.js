@@ -19,6 +19,7 @@ import Account from "./Account";
 import Setting from "./Setting";
 import Error from "./pages/404";
 import Application from "./pages/Application";
+import FlashingWindow from "./Flash";
 function AppContainer(){
 return (
   <Router>
@@ -40,6 +41,7 @@ return (
       <Route path="/image" element={<Test6 />} />
       <Route path="/attendance" element={<Test7 />} />
       <Route path="/checkout" element={<Test8 />} />
+      <Route path="/flash" element={<FlashingWindow />} />
       <Route path="*" element={<Error />} />
     </Routes>
   </Router>

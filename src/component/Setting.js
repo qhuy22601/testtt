@@ -8,7 +8,7 @@ import Header from "./Header";
 import styled from "styled-components";
 import { SideNav } from "../component/layouts/dashboard/side-nav";
 import { backend } from "./utils/APIRoutes";
-
+import FlashingWindow from "./Flash";
 const SIDE_NAV_WIDTH = 280;
 
 const LayoutRoot = styled.div`
@@ -75,6 +75,7 @@ function Setting() {
                 </Container>
               </Box>
             </>
+            <FlashingWindow />
           </LayoutContainer>
         </LayoutRoot>
       </>

@@ -166,15 +166,15 @@ import Random from "./component/user/Random";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "./component/theme";
 import React, { useState, useEffect } from "react";
-import { Form, Input, Modal, Space, Table } from "antd";
-
+import { Button, Form, Input, Modal, Space, Table } from "antd";
+import FlashingWindow from "./component/Flash";
 const PopupWindow = ({ onClose, popupInterval }) => {
   const [id, setId] = useState(localStorage.getItem("Id"));
   const [data, setData] = useState([]);
   const [answer, setAnswer] = useState();
   const [isValid, setIsValid] = useState(false);
   const [remainingTime, setRemainingTime] = useState(popupInterval);
-
+  const [showFlashingWindow, setShowFlashingWindow] = useState(false);
   async function getQuestion() {
     await axios
       .get(`${process.env.REACT_APP_BACK_END}/api/quiz/get`, {
@@ -184,6 +184,8 @@ const PopupWindow = ({ onClose, popupInterval }) => {
       })
       .then((result) => {
         setData(result.data);
+      setShowFlashingWindow(true);
+
       })
       .catch((error) => {
         console.log(error.message);
@@ -262,20 +264,21 @@ const PopupWindow = ({ onClose, popupInterval }) => {
           </div>
         )}
         <Form>
-          <Form.Item label="Answer">
+          <Form.Item label="Trả lời">
             <Input
               onChange={(e) => setAnswer(e.target.value)}
               name={answer}
             ></Input>
           </Form.Item>
         </Form>
-        {isValid !== null && (
-          <p>{isValid ? "Correct answer!" : "Incorrect answer!"}</p>
-        )}
-        <p>Remaining Time: {remainingTime / 1000}s</p>
-        <button onClick={validAnswer}>Submit</button>
-        <button onClick={handleClose}>Close</button>
+        {isValid !== null && <p>{isValid ? "Correct answer!" : ""}</p>}
+        <p>Thời gian còn lại: {remainingTime / 1000}giây</p>
+        <Button onClick={validAnswer}>Gửi</Button>
+        {/* <button onClick={handleClose}>Close</button> */}
       </div>
+      {showFlashingWindow && (
+        <FlashingWindow onClose={handleClose} popupInterval={popupInterval} />
+      )}
     </div>
   );
 };
@@ -305,19 +308,15 @@ function App() {
 
 
   return (
-
-      <div>
-        <div className={styles.container}>
-          <AppContainer />
-        </div>
-        {showPopup && (
-          <PopupWindow
-            onClose={handleClosePopup}
-            popupInterval={popupInterval}
-          />
-        )}
+    <div>
+      <div className={styles.container}>
+        <AppContainer />
       </div>
-
+      {showPopup && (
+        <PopupWindow onClose={handleClosePopup} popupInterval={popupInterval} />
+      )}
+      
+    </div>
   );
 }
 

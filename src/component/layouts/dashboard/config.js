@@ -11,6 +11,7 @@ import NewspaperIcon from "@heroicons/react/24/solid/NewspaperIcon";
 import CircleStackIcon from "@heroicons/react/24/solid/CircleStackIcon";
 import ArrowLeftCircleIcon from "@heroicons/react/24/solid/ArrowLeftCircleIcon";
 import ArrowRightCircleIcon from "@heroicons/react/24/solid/ArrowRightCircleIcon";
+import CalendarDaysIcon from "@heroicons/react/24/solid/CalendarDaysIcon";
 import { SvgIcon } from '@mui/material';
 
 export const items = [
@@ -38,6 +39,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <DocumentDuplicateIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Xin nghỉ",
+    path: "/app",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CalendarDaysIcon />
       </SvgIcon>
     ),
   },
