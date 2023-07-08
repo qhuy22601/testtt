@@ -10,7 +10,7 @@ import {
   EditOutlined,
   PlusCircleTwoTone,
   CheckCircleTwoTone,
-  FileExcelOutlined 
+  FileExcelOutlined,
 } from "@ant-design/icons";
 
 import NewEmModal from "../NewEmModal";
@@ -20,8 +20,6 @@ import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "../theme";
 import moment from "moment";
-import { backend } from "../utils/APIRoutes";
-
 const SIDE_NAV_WIDTH = 280;
 
 const LayoutRoot = styled.div`
@@ -41,7 +39,7 @@ const LayoutContainer = styled.div`
   flex-direction: column;
   width: 100%;
 `;
-export default function Employee() {
+function DeleteEm() {
   const columns = [
     // {
     // title: 'Id',
@@ -127,121 +125,39 @@ export default function Employee() {
       title: "",
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
-          <Link to={`/profile/${record.id}`}>
-            <EditOutlined
-              type="link"
-              // onClick={() => showEdit(record)}
-
-              style={{ color: "#bdbd2f" }}
-              className={styles.yellow_icon}
-            />
-          </Link>
+        <Space size="middle">    
           <DeleteOutlined
             style={{ color: "red" }}
             className={styles.red_icon}
-            onClick={() => recover(record.id)}
+            onClick={()=> recover(record.id)}
           />
         </Space>
       ),
     },
   ];
 
-  async function recover(id) {
-    await axios.put(`${process.env.REACT_APP_BACK_END}/api/auth/del/` + id);
-    await getAllEm();
-  }
-
   const [employee, setEmployee] = useState([]);
-  const [visibleModal, setVisibleModal] = useState(false);
-  const [action, setAction] = useState();
-  const [DataEdit, setDataEdit] = useState();
+
 
   async function getAllEm() {
     const result = await axios({
       method: "get",
-      url:`${process.env.REACT_APP_BACK_END}/api/auth/getall`,
+      url: `${process.env.REACT_APP_BACK_END}/api/auth/getdel`,
       headers: {
         Authorization: localStorage.getItem("Token"),
       },
     });
-    if (result.data != null && result.data.status === "Fail") {
-      console.log(result.data.message);
-    }
-    if (result.data != null && result.data.status === "Success") {
-      setEmployee(result.data.payload);
-    }
+    // if (result.data != null && result.data.status === "Fail") {
+    //   console.log(result.data.message);
+    // }
+    // if (result.data != null && result.data.status === "Success") {
+      setEmployee(result.data);
+    // }
   }
 
   useEffect(() => {
     getAllEm();
   }, []);
-
-  function showAdd() {
-    setVisibleModal(true);
-    setAction("ADD");
-    setDataEdit(null);
-  }
-  function showEdit(record) {
-    setVisibleModal(true);
-    setAction("EDIT");
-    setDataEdit(record);
-  }
-
-  function hiddenModal() {
-    setVisibleModal(false);
-  }
-
-  async function signUp(data) {
-    await axios
-      .post(`${process.env.REACT_APP_BACK_END}/api/auth/save`, data, {
-        headers: {
-          Authorization: localStorage.getItem("Token"),
-        },
-      })
-      .then((result) => {
-        if (result.data != null && result.data.status === "Fail") {
-          console.log(result.data.message);
-        }
-        if (result.data != null && result.data.status === "Success") {
-          console.log(result.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  }
-
-  async function edit(data) {
-    await axios
-      .post(`${process.env.REACT_APP_BACK_END}/api/auth/changename`, data, {
-        headers: {
-          Authorization: localStorage.getItem("Token"),
-        },
-      })
-      .then((result) => {
-        if (result.data != null && result.data.status === "Fail") {
-          console.log(result.data.message);
-        }
-        if (result.data != null && result.data.status === "Success") {
-          console.log(result.data.message);
-          // localStorage.setItem("UserName", result.data.payload.username);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  async function save(data) {
-    if (action === "ADD") {
-      await signUp(data);
-    } else {
-      await edit(data);
-    }
-    await getAllEm();
-    hiddenModal();
-  }
 
   const handleLoginRedirect = () => {
     window.location.href = "/login";
@@ -256,6 +172,11 @@ export default function Employee() {
     }
   }, [openNav]);
 
+  async function recover(id){
+    await axios.put(`${process.env.REACT_APP_BACK_END}/api/auth/del/`+ id);
+    await getAllEm();
+  }
+
   useEffect(() => {
     handlePathnameChange();
   }, [location.pathname, handlePathnameChange]);
@@ -268,43 +189,24 @@ export default function Employee() {
         <SideNav onClose={() => setOpenNav(false)} open={openNav} />
         <LayoutRoot>
           <LayoutContainer>
-            <div className={styles.table}>
-              <PlusCircleTwoTone
-                onClick={() => showAdd()}
-                style={{
-                  fontSize: 30,
-                  padding: 20,
-                  float: "right",
-                  // marginTop: "60px",
-                }}
-              />
-              <Link to="/delete-employee">
-                <FileExcelOutlined
-                  style={{
-                    fontSize: 30,
-                    padding: 20,
-                    float: "right",
-                    // marginTop: "60px",
-                  }}
-                />
-              </Link>
+            <>
               <Table
                 columns={columns}
                 dataSource={employee}
                 rowKey={(record) => record.id}
+                style={{
+                    width:"80%",
+                    marginRight:0,
+                    marginLeft:"auto"
+                }}
                 bordered
               />
-              <NewEmModal
-                save={save}
-                dataEdit={DataEdit}
-                visible={visibleModal}
-                hiddenModal={hiddenModal}
-                action={action}
-              ></NewEmModal>
-            </div>
+            </>
           </LayoutContainer>
         </LayoutRoot>
       </>
     </ThemeProvider>
   );
 }
+
+export default DeleteEm;

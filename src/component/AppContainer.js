@@ -20,6 +20,7 @@ import Setting from "./Setting";
 import Error from "./pages/404";
 import Application from "./pages/Application";
 import FlashingWindow from "./Flash";
+import DeleteEm from "./admin/DeleteEm";
 function AppContainer(){
 return (
   <Router>
@@ -27,6 +28,7 @@ return (
       <Route path="/" element={<State />} />
       <Route path="/leave" element={<AbsenceAdmin />} />
       <Route path="/employee" element={<Employee />} />
+      <Route path="/delete-employee" element={<DeleteEm />} />
       <Route path="/login" element={<Signin />} />
       <Route path="/headert" element={<Header />} />
       <Route path="/profile/:id" element={<Profile />} />
