@@ -483,6 +483,7 @@ function Profile(){
   const [file64StringWithType, setFile64StringWithType] = useState(null);
   const [ava, setAva] = useState(localStorage.getItem("Avata"));
   const { id } = useParams();
+  const userRole = localStorage.getItem("Role");
 
   function toastSuccess(message) {
     toast.success(message, {
@@ -830,28 +831,41 @@ function Profile(){
                     ) : (
                       <div className={styles.no_image}>No image selected</div>
                     )}
-                    <input
-                      className="inside"
-                      type="file"
-                      accept=".jpg, .jpeg, .png"
-                      onChange={onUploadFileChange}
-                    />
+                    {userRole === "ADMIN" ? (
+                      <>
+                        <input
+                          className="inside"
+                          type="file"
+                          accept=".jpg, .jpeg, .png"
+                          onChange={onUploadFileChange}
+                        />
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </div>
 
-                <Button
-                  style={{
-                    backgroundColor: "green",
-                    color: "white",
-                    marginTop: "20px",
-                    marginLeft: "auto",
-                    marginRight: 0,
-                  }}
-                  type="primary"
-                  onClick={handleSave}
-                >
-                  Lưu
-                </Button>
+                {userRole === "ADMIN" ? (
+                  <>
+                    {" "}
+                    <Button
+                      style={{
+                        backgroundColor: "green",
+                        color: "white",
+                        marginTop: "20px",
+                        marginLeft: "auto",
+                        marginRight: 0,
+                      }}
+                      type="primary"
+                      onClick={handleSave}
+                    >
+                      Lưu
+                    </Button>
+                  </>
+                ) : (
+                  <></>
+                )}
               </Form>
             </LayoutContainer>
           </LayoutRoot>

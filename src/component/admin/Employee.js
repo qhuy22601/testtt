@@ -42,6 +42,8 @@ const LayoutContainer = styled.div`
   width: 100%;
 `;
 export default function Employee() {
+  const userRole = localStorage.getItem("Role");
+
   const columns = [
     // {
     // title: 'Id',
@@ -126,7 +128,9 @@ export default function Employee() {
     {
       title: "",
       key: "action",
-      render: (_, record) => (
+      render: (_, record) => {
+         if (userRole === "ADMIN") {
+          return (
         <Space size="middle">
           <Link to={`/profile/${record.id}`}>
             <EditOutlined
@@ -143,7 +147,10 @@ export default function Employee() {
             onClick={() => recover(record.id)}
           />
         </Space>
-      ),
+          )
+      }
+        return null;
+      }
     },
   ];
 
@@ -269,25 +276,33 @@ export default function Employee() {
         <LayoutRoot>
           <LayoutContainer>
             <div className={styles.table}>
-              <PlusCircleTwoTone
-                onClick={() => showAdd()}
-                style={{
-                  fontSize: 30,
-                  padding: 20,
-                  float: "right",
-                  // marginTop: "60px",
-                }}
-              />
-              <Link to="/delete-employee">
-                <FileExcelOutlined
-                  style={{
-                    fontSize: 30,
-                    padding: 20,
-                    float: "right",
-                    // marginTop: "60px",
-                  }}
-                />
-              </Link>
+              {userRole === "ADMIN" ? (
+                <>
+                  <PlusCircleTwoTone
+                    onClick={() => showAdd()}
+                    style={{
+                      fontSize: 30,
+                      padding: 20,
+                      float: "right",
+                      // marginTop: "60px",
+                    }}
+                  />
+                  <Link to="/delete-employee">
+                    <FileExcelOutlined
+                      style={{
+                        fontSize: 30,
+                        padding: 20,
+                        float: "right",
+                        // marginTop: "60px",
+                      }}
+                    />
+                  </Link>
+                </>
+              ) : (
+                <>
+               </>
+              )}
+
               <Table
                 columns={columns}
                 dataSource={employee}

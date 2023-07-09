@@ -7,10 +7,7 @@ import axios from "axios";
 import { Form, Input, Modal, Space, Table, Image } from "antd";
 import {
   DeleteOutlined,
-  EditOutlined,
-  PlusCircleTwoTone,
-  CheckCircleTwoTone,
-  FileExcelOutlined,
+  ApiOutlined
 } from "@ant-design/icons";
 
 import NewEmModal from "../NewEmModal";
@@ -40,6 +37,7 @@ const LayoutContainer = styled.div`
   width: 100%;
 `;
 function DeleteEm() {
+  const userRole = localStorage.getItem("Role");
   const columns = [
     // {
     // title: 'Id',
@@ -105,12 +103,6 @@ function DeleteEm() {
       key: "birthDate",
       render: (text) => moment(text, "YYYY-MM-DD").format("DD-MM-YYYY"),
     },
-    // {
-    //   title: "Address",
-    //   dataIndex: "address",
-    //   key: "address",
-    // },
-
     {
       title: "Cấp độ",
       dataIndex: "payGrade",
@@ -124,15 +116,20 @@ function DeleteEm() {
     {
       title: "",
       key: "action",
-      render: (_, record) => (
-        <Space size="middle">    
-          <DeleteOutlined
-            style={{ color: "red" }}
-            className={styles.red_icon}
-            onClick={()=> recover(record.id)}
-          />
-        </Space>
-      ),
+      render: (_, record) => {
+         if (userRole === "ADMIN") {
+          return (
+            <Space size="middle">
+              <ApiOutlined
+                style={{ color: "red" }}
+                className={styles.red_icon}
+                onClick={() => recover(record.id)}
+              />
+            </Space>
+          );
+        }
+        return null;
+      }
     },
   ];
 
@@ -147,12 +144,7 @@ function DeleteEm() {
         Authorization: localStorage.getItem("Token"),
       },
     });
-    // if (result.data != null && result.data.status === "Fail") {
-    //   console.log(result.data.message);
-    // }
-    // if (result.data != null && result.data.status === "Success") {
       setEmployee(result.data);
-    // }
   }
 
   useEffect(() => {
