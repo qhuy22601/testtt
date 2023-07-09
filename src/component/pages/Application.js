@@ -63,18 +63,18 @@ const AbsenceForm = () => {
     }
 
     try {
-      const formattedStartDate = startDate.startOf("day").toISOString();
-      const formattedEndDate = endDate.endOf("day").toISOString();
+      const formattedStartDate = startDate.startOf("day").format("YYYY-MM-DD");
+      const formattedEndDate = endDate.endOf("day").format("YYYY-MM-DD");
       await axios.post(`${process.env.REACT_APP_BACK_END}/api/absence/save`, {
         userId: id,
-        startDate: formattedStartDate.format("YYYY-MM-DD"),
-        endDate: formattedEndDate.format("YYYY-MM-DD"),
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
         reason,
       });
       toastSuccess("Tạo thành công");
       form.resetFields();
     } catch (error) {
-      toastWarning("Tạo thất bại");
+      toastWarning("Tạo thất bại:"+error);
     }
   };
    const handleLoginRedirect = () => {

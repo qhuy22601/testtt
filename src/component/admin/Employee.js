@@ -45,12 +45,12 @@ export default function Employee() {
   const userRole = localStorage.getItem("Role");
 
   const columns = [
-    // {
-    // title: 'Id',
-    //   dataIndex: 'id',
-    //   key: 'id',
-    //   render: (text) => <a>{text}</a>,
-    // },
+    {
+    title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text) => <a>{text}</a>,
+    },
     {
       title: "Ảnh",
       dataIndex: "image",
@@ -82,13 +82,13 @@ export default function Employee() {
       ),
     },
     {
-      title: "Họ",
+      title: "Tên",
       dataIndex: "firstName",
       key: "firstName",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Tên",
+      title: "Họ",
       dataIndex: "lastName",
       key: "lastName",
       render: (text) => <a>{text}</a>,
@@ -129,28 +129,28 @@ export default function Employee() {
       title: "",
       key: "action",
       render: (_, record) => {
-         if (userRole === "ADMIN") {
+        if (userRole === "ADMIN") {
           return (
-        <Space size="middle">
-          <Link to={`/profile/${record.id}`}>
-            <EditOutlined
-              type="link"
-              // onClick={() => showEdit(record)}
+            <Space size="middle">
+              <Link to={`/profile/${record.id}`}>
+                <EditOutlined
+                  type="link"
+                  // onClick={() => showEdit(record)}
 
-              style={{ color: "#bdbd2f" }}
-              className={styles.yellow_icon}
-            />
-          </Link>
-          <DeleteOutlined
-            style={{ color: "red" }}
-            className={styles.red_icon}
-            onClick={() => recover(record.id)}
-          />
-        </Space>
-          )
-      }
+                  style={{ color: "#bdbd2f" }}
+                  className={styles.yellow_icon}
+                />
+              </Link>
+              <DeleteOutlined
+                style={{ color: "red" }}
+                className={styles.red_icon}
+                onClick={() => recover(record.id)}
+              />
+            </Space>
+          );
+        }
         return null;
-      }
+      },
     },
   ];
 

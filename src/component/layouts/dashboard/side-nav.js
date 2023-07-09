@@ -100,6 +100,9 @@ export const SideNav = (props) => {
             ) {
               return null;
             }
+            if (item.title === "Quiz" && userRole === "USER") {
+              return null;
+            }
             return (
               <SideNavItem
                 active={active}

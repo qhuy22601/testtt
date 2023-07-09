@@ -12,6 +12,7 @@ import CircleStackIcon from "@heroicons/react/24/solid/CircleStackIcon";
 import ArrowLeftCircleIcon from "@heroicons/react/24/solid/ArrowLeftCircleIcon";
 import ArrowRightCircleIcon from "@heroicons/react/24/solid/ArrowRightCircleIcon";
 import CalendarDaysIcon from "@heroicons/react/24/solid/CalendarDaysIcon";
+import PuzzlePieceIcon from "@heroicons/react/24/solid/PuzzlePieceIcon";
 import { SvgIcon } from '@mui/material';
 
 export const items = [
@@ -84,6 +85,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <NewspaperIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Quiz",
+    path: "/quiz",
+    icon: (
+      <SvgIcon fontSize="small">
+        <PuzzlePieceIcon />
       </SvgIcon>
     ),
   },

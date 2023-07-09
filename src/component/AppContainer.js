@@ -19,8 +19,9 @@ import Account from "./Account";
 import Setting from "./Setting";
 import Error from "./pages/404";
 import Application from "./pages/Application";
-import FlashingWindow from "./Flash";
 import DeleteEm from "./admin/DeleteEm";
+import CardQuiz from "./components/card-quiz";
+import Quiz from "./admin/Quiz";
 function AppContainer(){
 return (
   <Router>
@@ -43,7 +44,7 @@ return (
       <Route path="/image" element={<Test6 />} />
       <Route path="/attendance" element={<Test7 />} />
       <Route path="/checkout" element={<Test8 />} />
-      <Route path="/flash" element={<FlashingWindow />} />
+      <Route path="/quiz" element={<Quiz />} />
       <Route path="*" element={<Error />} />
     </Routes>
   </Router>
