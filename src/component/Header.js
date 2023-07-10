@@ -159,6 +159,23 @@ function Header({ onLoginRedirect, onNavOpen }) {
     setCurrentChat(chat);
   };
 
+  useEffect(()=>{
+    async function fetch() {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACK_END}/api/auth/user/` + id
+      );
+      localStorage.setItem("FirstName", res.data.firstName);
+      localStorage.setItem("LastName", res.data.lastName);
+      localStorage.setItem("Avata", res.data.image);
+    }
+    
+    fetch();
+  },[id])
+
+   
+
+
+
   const [ava, setAva] = useState(localStorage.getItem("Avata"));
 
   async function getNotif() {
